@@ -18,6 +18,8 @@ app.MapPost("/encrypt", (CryptoRequest req, Encryptor encryptor) =>
     return Results.Ok(new CryptoResponse(result));
 });
 
+//added text here to test deploy
+
 app.MapPost("/decrypt", (CryptoRequest req, Encryptor encryptor) =>
 {
     var result = encryptor.Decrypt(req.Text, req.Shift);
