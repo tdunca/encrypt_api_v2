@@ -5,7 +5,7 @@ namespace Api.Tests;
 
 public class CaesarEncryptorTests
 {
-    private readonly Encryptor _encryptor= new CaesarEncryptor();
+    private readonly Encryptor _encryptor = new CaesarEncryptor();
 
     [Fact]
     public void Encrypt_Then_Decrypt_Returns_Original()
@@ -19,9 +19,22 @@ public class CaesarEncryptorTests
         Assert.Equal(text, decrypted);
     }
 
-    [Fact]
-    public void Encrypt_Hello_Shift3_Is_Khoor()
+    [Theory]
+    [InlineData("Hello", 3, "Khoor")]
+    [InlineData("abc", 1, "bcd")]
+    [InlineData("XYZ", 2, "ZAB")]
+    public void Encrypt_Known_Cases(string input, int shift, string expected)
     {
-        Assert.Equal("Khoor", _encryptor.Encrypt("Hello", 3));
+        var encrypted = _encryptor.Encrypt(input, shift);
+        Assert.Equal(expected, encrypted);
+    }
+
+    [Fact]
+    public void Encrypt_Shift_0_Returns_Same_Text()
+    {
+        var text = "NoChange!";
+        var encrypted = _encryptor.Encrypt(text, 0);
+
+        Assert.Equal(text, encrypted);
     }
 }
